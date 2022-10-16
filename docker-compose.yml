@@ -28,7 +28,7 @@ services:
   api:
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./dockerfiles/Dockerfile
     volumes:
       - ./app:/app
     ports:
