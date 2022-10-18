@@ -9,7 +9,6 @@ services:
     ports:
       - 22181:2181
   
-
   kafka:
     image: confluentinc/cp-kafka:5.3.1
     depends_on:
@@ -23,17 +22,37 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    
-    
-  api:
+       
+  return_api:
     build: 
       context: .
-      dockerfile: ./dockerfiles/Dockerfile
+      dockerfile: ./dockerfiles/Dockerfile_returnApi
     volumes:
-      - ./app:/app
+      - ./microservices/returnApi:/app
     ports:
       - "8000:5000"
     restart: always
-    
 
+  details:
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile_details
+    volumes:
+      - ./microservices/details:/app
+    restart: always
 
+  pdf_generator:
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile_pdfGenerator
+    volumes:
+      - ./microservices/pdfGenerator:/app
+    restart: always
+
+  email_sender:
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile_emailSender
+    volumes:
+      - ./microservices/emailSender:/app
+    restart: always
