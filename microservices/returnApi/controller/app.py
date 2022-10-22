@@ -1,4 +1,7 @@
 from flask import Flask
+from datetime import date
+from entities.package import Package
+import json
 app = Flask(__name__)
 
 @app.route('/ping', methods = ['GET'])
@@ -7,11 +10,13 @@ def ping():
 
 @app.route('/return/<int:id>', methods = ['GET'])
 def showReturnById(id):
+    x = Package(id, 3, 45, 'SENT', date.today())
     return str(id)
 
 @app.route('/return/<int:id>', methods = ['PATCH'])
 def updateReturnById(id):
-    return 'patch'
+    x = Package(id, 3, 45, 'SENT', date.today())
+    return x
 
 #@app.route('/return/create')
 
